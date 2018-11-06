@@ -22,6 +22,29 @@
 ## 环境配置
 移动libs目录下的所有文件到bin\Debug目录下
 
+按格式修改配置文件setting.ini即可:
+``` json
+{
+  "sender": "XXXXXXXX@qq.com", //发件人,qq邮箱
+  "receivers": [ //接受者s
+    {
+	  "id": 1,//接收者id,保留
+	  "name":"zhangsan",//接收者名字,保留
+      "mail": "XXXXXXX@qq.com",//接受者邮箱
+      "follow": ["c#"],//需要关注的每日趋势的语言
+	  "themes": []//需要关注的主题
+    }
+  ],
+  "license": "XXXXXXXXXXXX",//发件人qq邮箱的授权码
+  "noticetime": "18-38",//提醒当天的时间
+  "debug": false,//是否是debug模式
+  "mailcontenttype":"HTML",//邮件内容格式是否采用HTML格式,可以是HTML,text
+  "noticerate":"daily",//邮件发送的频率,daily、week、month、year
+}
+```
+
+## 工具截图:
+![工具截图](https://github.com/SixGodZhang/GitHubToMail/blob/master/images/11.png)
 
 
 
