@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -17,7 +18,7 @@ namespace GithubSpider
             html.Append(File.ReadAllText(headPath));
             foreach (ThemeRepo item in repos)
             {
-                html.Append(GetNewLiElement(liPath, item.Name, item.Desc, item.Stars + "", item.Language));
+                html.Append(GetNewLiElement(liPath, item.Name, item.Desc, item.Stars + "", item.Language,item.Addrress));
             }
             html.Append(File.ReadAllText(tailPath));
 
@@ -34,17 +35,17 @@ namespace GithubSpider
             html.Append(File.ReadAllText(headPath));
             foreach (TrendingRepo item in repos)
             {
-                html.Append(GetNewLiElement(liPath, item.RepoTitle, item.RepoDescription, item.Stars + "", item.Language));
+                html.Append(GetNewLiElement(liPath, item.RepoTitle, item.RepoDescription, item.Stars + "", item.Language,item.Url));
             }
             html.Append(File.ReadAllText(tailPath));
 
             return html.ToString();
         }
 
-        public static string GetNewLiElement(string liTemplatePath, string author, string desc, string stars, string language)
+        public static string GetNewLiElement(string liTemplatePath, string author, string desc, string stars, string language,string link)
         {
             ReadLiElement(liTemplatePath);
-            AddNewLiElement(author, desc, stars, language);
+            AddNewLiElement(author, desc, stars, language,link);
 
             StringBuilder liContent = new StringBuilder();
 
@@ -88,12 +89,18 @@ namespace GithubSpider
         /// <param name="desc">描述</param>
         /// <param name="stars">星</param>
         /// <param name="language">语言</param>
-        public static void AddNewLiElement(string author, string desc, string stars, string language)
+        public static void AddNewLiElement(string author, string desc, string stars, string language,string link)
         {
             htlmElement["author"] = GetProjectName(author);
             htlmElement["desc"] = GetDesc(desc);
             htlmElement["stars"] = GetStars(stars);
             htlmElement["language"] = GetLanguage(language);
+            htlmElement["title-text"] = GetProjectLink(link);
+        }
+
+        private static string GetProjectLink(string plink)
+        {
+            return "<a class=\"title - text\" style=\"\" href=\"" + plink + "\" target=\"_blank\">";
         }
 
         public static string GetProjectName(string author)
