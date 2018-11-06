@@ -9,7 +9,7 @@ namespace GithubSpider
         private static int noticeHour;
         private static int noticeMin;
 
-        private static Configure configure;
+        public static Configure configure;
         private static bool isDebug = false;
         private static bool isDebugSend = false;
         private static MailContentType mailType = MailContentType.TEXT;
