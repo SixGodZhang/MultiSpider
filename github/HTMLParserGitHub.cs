@@ -1,4 +1,6 @@
-﻿using HtmlAgilityPack;
+﻿using Database;
+using HtmlAgilityPack;
+using Repos;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -55,6 +57,9 @@ namespace GithubSpider
                     }
                 }
             }
+
+            if (Repos.Count != 0)
+                GithubOp.Instance.SaveRangeData(Repos);
 
             return Repos;
         }

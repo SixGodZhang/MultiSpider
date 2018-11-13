@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Repos;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -9,8 +10,58 @@ using System.Threading.Tasks;
 
 namespace GithubSpider
 {
-    class APIGithub
+    class JsonParserGithub
     {
+        /// <summary>
+        /// 获取Github趋势邮件内容
+        /// </summary>
+        /// <param name="fllowLanguage">关注何种语言趋势</param>
+        /// <param name="type">邮件内容格式</param>
+        /// <returns></returns>
+        public static string GetFollowContents(string fllowLanguage, MailContentType type)
+        {
+            List<TrendingRepo> repos = HTMLParserGitHub.Trending("daily", fllowLanguage).Result;
+
+            string content = "";
+            switch (type)
+            {
+                case MailContentType.TEXT:
+                    content = MailTextTemplate.CreateMailByLanguageTemplate(repos);
+                    break;
+
+                case MailContentType.HTML:
+                    content = MailHTMLTemplate.GetHTMLContentByLanguage(repos);
+                    break;
+            }
+            //File.WriteAllText(Path.Combine(System.Environment.CurrentDirectory, "A.html"),content);
+            return content;
+        }
+
+        /// <summary>
+        /// 获取Github主题邮件内容
+        /// </summary>
+        /// <param name="theme">关注的Github主题</param>
+        /// <param name="type">邮件内容格式</param>
+        /// <returns></returns>
+        public static string GetThemeContents(string theme, MailContentType type)
+        {
+            List<ThemeRepo> repos = JsonParserGithub.GetThemeRepos(theme);
+
+            string content = "";
+            switch (type)
+            {
+                case MailContentType.TEXT:
+                    content = MailTextTemplate.CreateMailByThemeTemplate(repos);
+                    break;
+
+                case MailContentType.HTML:
+                    content = MailHTMLTemplate.GetHTMLContentByTheme(repos);
+                    break;
+            }
+            File.WriteAllText(Path.Combine(System.Environment.CurrentDirectory, "B.html"), content);
+            return content;
+        }
+
         /// <summary>
         /// 获取话题数据
         /// </summary>
@@ -51,6 +102,9 @@ namespace GithubSpider
                 }
                 //Console.WriteLine(repositoriesResult.total_count);
             }
+
+            if (repos.Count != 0)
+                Database.GithubOp.Instance.SaveRangeData(repos);
 
             return repos;
         }

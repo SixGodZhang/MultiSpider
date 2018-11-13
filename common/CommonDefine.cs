@@ -6,10 +6,16 @@ using System.Threading.Tasks;
 
 namespace GithubSpider
 {
+    enum WebType
+    {
+        github      = 0,
+        zhihu       = 1,
+    }
+
     /// <summary>
     /// 发送给订阅者的邮件内容类型
     /// </summary>
-    enum MailContentType
+    public enum MailContentType
     {
         TEXT = 0,
         HTML = 1
@@ -18,7 +24,7 @@ namespace GithubSpider
     /// <summary>
     /// 发送邮件的周期
     /// </summary>
-    enum NoticeRate
+    public enum NoticeRate
     {
         DAILY = 0,
         WEEK = 1,
@@ -161,17 +167,8 @@ namespace GithubSpider
     /// <summary>
     /// 从api.github.com获取相关的信息需要用到
     /// </summary>
-    public class CommonDefine
+    public partial class CommonDefine
     {
-        public static Dictionary<string, string> addressRoot = new Dictionary<string, string>
-        {
-            { "Repositories","https://api.github.com/search/repositories"},
-            { "Commits","https://api.github.com/search/commits"},
-            { "Code","https://api.github.com/search/code"},
-            { "Issues","https://api.github.com/search/issues"},
-            { "Users","https://api.github.com/search/users"},
-            { "Topics","https://api.github.com/search/topics"},
-            { "Labels","https://api.github.com/search/labels"},
-        };
+
     }
 }

@@ -32,7 +32,16 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>GithubSpider.SpiderMain</StartupObject>
+  </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
     <Reference Include="HtmlAgilityPack, Version=1.8.9.0, Culture=neutral, PublicKeyToken=bd319b19eaf3b43a, processorArchitecture=MSIL">
       <HintPath>libs\HtmlAgilityPack.dll</HintPath>
     </Reference>
@@ -40,7 +49,10 @@
       <HintPath>libs\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -49,23 +61,41 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="github\APIGithub.cs" />
-    <Compile Include="common\CommonSearchDefine.cs" />
+    <Compile Include="common\SiteConfig.cs" />
+    <Compile Include="Database\GithubOp.cs" />
+    <Compile Include="Database\IDatabaseOp.cs" />
+    <Compile Include="github\JsonParserGithub.cs" />
+    <Compile Include="common\CommonDefine.cs" />
     <Compile Include="github\Conditions.cs" />
-    <Compile Include="common\Configure.cs" />
+    <Compile Include="common\ConfigureEntity.cs" />
+    <Compile Include="github\GithubCommonDefine.cs" />
     <Compile Include="github\HTMLParserGitHub.cs" />
     <Compile Include="MailCreator\MailManager.cs" />
     <Compile Include="MailCreator\MailReceiver.cs" />
     <Compile Include="MailCreator\MailHTMLTemplate.cs" />
     <Compile Include="MailCreator\MailTextTemplate.cs" />
+    <Compile Include="Models\Github.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="github\RepositoriesEntity.cs" />
+    <Compile Include="repos\IRepo.cs" />
     <Compile Include="repos\Repos.cs" />
+    <Compile Include="repos\ThemeRepo.cs" />
+    <Compile Include="repos\TrendingRepo.cs" />
+    <Compile Include="zhihu\APIZhihu.cs" />
+    <Compile Include="zhihu\HTMLParserZhihu.cs" />
+    <Compile Include="zhihu\ZhihuCommonDefine.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\LogManager\LogManager.csproj">
+      <Project>{5d108aca-1361-45c1-aa45-6367e83d5641}</Project>
+      <Name>LogManager</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
