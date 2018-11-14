@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -9,6 +10,29 @@ namespace Spider.Mail
 {
     class MailTextTemplate
     {
+        /// <summary>
+        /// 创建邮件的模板(无布局)
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="repos"></param>
+        /// <returns></returns>
+        public static string CreateMailTemplate<T>(IEnumerable<T> repos) where T:IRepo
+        {
+            StringBuilder content = new StringBuilder();
+            foreach (T item in repos)
+            {
+                Type type = item.GetType();
+                PropertyInfo[] piArr = type.GetProperties();
+                foreach (var pi in piArr)
+                {
+                    content.Append(pi.Name + ":" + pi.GetValue(item) + "\n");
+                }
+                content.Append("\n");
+            }
+
+            return content.ToString();
+        }
+
         /// <summary>
         /// 创建关于语言邮件模板
         /// </summary>

@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Repos
 {
@@ -13,11 +9,17 @@ namespace Repos
     {
         [Key]
         public int ID { get; set; }
-
+        [Column("标题")]
         public string Title { get; set; }
+        [Column("关注度")]
         public string MetricsArea { get; set; }
+        [Column("回答数目")]
         public int AnswerCount { get; set; }
+        [Column("Score")]
         public int Score { get; set; }
+        [Column("链接")]
         public string Link { get; set; }
+        [Column("数据生成时间")]
+        public DateTime Date { get; set; }
     }
 }

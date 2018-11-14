@@ -1,6 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Net.Mail;
+using System.Net.Security;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 
 namespace Spider.Mail
@@ -34,7 +37,14 @@ namespace Spider.Mail
             client.UseDefaultCredentials = false;
             client.Credentials = new NetworkCredential(webConfig.sender, webConfig.license);
 
+            ServicePointManager.ServerCertificateValidationCallback += RemoteCertificateValidate;
+
             client.Send(mailMessage);
+        }
+
+        private static bool RemoteCertificateValidate(object sender, X509Certificate certificate, X509Chain chain, SslPolicyErrors sslPolicyErrors)
+        {
+            return true;
         }
     }
 }

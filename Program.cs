@@ -43,7 +43,7 @@ namespace Spider
 
             while (true)
             {
-               // GithubAction();
+                GithubAction();
                 ZhihuAction();
             }
         }
@@ -58,6 +58,19 @@ namespace Spider
                 List<HotRepo> repos = HTMLParserZhihu.GetHotData();
                 if (zhihuConf.database)
                     ZhihuOp.Instance.SaveRangeData(repos);
+
+                List<HotRepo> dataList = ZhihuOp.Instance.GetRangeHotData(DateTime.Now);
+                string mailContent = MailTextTemplate.CreateMailTemplate(dataList);
+
+                //查找热点订阅者
+                List<string> users = new List<string>();
+                foreach (var mailAddress in zhihuConf.SubscribeHot.Keys)
+                {
+                    if (zhihuConf.SubscribeHot[mailAddress])
+                        users.Add(mailAddress);
+                }
+
+                MailManager.SendMail(zhihuConf, SubscriptionSubject.Hots, mailContent, users,false);
 
                 if (zhihuConf.isDebug) zhihuConf.isDebugSend = true;
                 SendStatus.SetSendSatus(zhihuConf.noticeRate);
@@ -95,7 +108,7 @@ namespace Spider
                     {
                         mailContens = JsonParserGithub.GetThemeContents(key, githubConf.mailType);
                         Console.WriteLine("send topic mail...");
-                        MailManager.SendMail(zhihuConf,SubscriptionSubject.Topics, mailContens, githubConf.ThemesDict[key]);
+                        MailManager.SendMail(githubConf,SubscriptionSubject.Topics, mailContens, githubConf.ThemesDict[key]);
                     }
                 }
 

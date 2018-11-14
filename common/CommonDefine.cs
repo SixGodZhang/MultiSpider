@@ -53,6 +53,7 @@ namespace Spider
     {
         public static string Trending { get { return "Github 趋势专题(近期热点)"; } }
         public static string Topics { get { return "Github 热门话题"; } }
+        public static string Hots { get { return "知乎热点问题"; } }
     }
 
     /// <summary>

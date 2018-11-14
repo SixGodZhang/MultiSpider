@@ -1,4 +1,5 @@
 ﻿using Repos;
+using System;
 using System.Collections.Generic;
 
 namespace Spider.ZhiHu
@@ -25,7 +26,7 @@ namespace Spider.ZhiHu
             hotRepo.AnswerCount = feedSpecific.answerCount;
             hotRepo.Link = target.link.url;
             hotRepo.Score = feedSpecific.score;
-
+            hotRepo.Date = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, DateTime.Now.Hour, 0, 0);
             return hotRepo;
         }
 
