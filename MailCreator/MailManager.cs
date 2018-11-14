@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LogManager;
+using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Mail;
@@ -19,6 +20,10 @@ namespace Spider.Mail
         /// <param name="mailContentType">邮件内容是否采用HTML</param>
         public static void SendMail<T>(SpiderWebConfig<T> webConfig, string subject, string body, List<string> mails, bool mailContentType = true) where T : Receiver
         {
+            ATLog.Info("正在发送邮件,详细信息:\n" +
+                "发件人: " + webConfig.sender + "\n" +
+                "邮件主题: " + subject + "\n" +
+                "收件人: " + mails.ToArray().ToString() +"\n");
             MailMessage mailMessage = new MailMessage();
             mailMessage.IsBodyHtml = mailContentType;
             mailMessage.BodyEncoding = Encoding.GetEncoding(936);

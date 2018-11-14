@@ -11,6 +11,7 @@ using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 using Spider.Database;
+using LogManager;
 
 namespace Spider.Github
 {
@@ -18,6 +19,7 @@ namespace Spider.Github
     {
         public static async Task<List<TrendingRepo>> Trending(String Period = "daily", String Language = "")
         {
+            ATLog.Info("    =>正在进行网络请求,解析HTML文件");
             List<TrendingRepo> Repos = new List<TrendingRepo>();
             //解决远程身份验证问题
             ServicePointManager.ServerCertificateValidationCallback += RemoteCertificateValidate;

@@ -9,6 +9,7 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using Spider.Database;
+using LogManager;
 
 namespace Spider.Github
 {
@@ -22,16 +23,19 @@ namespace Spider.Github
         /// <returns></returns>
         public static string GetFollowContents(string fllowLanguage, MailContentType type)
         {
+            ATLog.Info("获取Github每日趋势");
             List<TrendingRepo> repos = HTMLParserGitHub.Trending("daily", fllowLanguage).Result;
 
             string content = "";
             switch (type)
             {
                 case MailContentType.TEXT:
-                    content = MailTextTemplate.CreateMailByLanguageTemplate(repos);
+                    ATLog.Info("创建Text格式的邮件模板");
+                    content = MailTextTemplate.CreateMailTemplate(repos);
                     break;
 
                 case MailContentType.HTML:
+                    ATLog.Info("创建HTML格式的邮件模板");
                     content = MailHTMLTemplate.GetHTMLContentByLanguage(repos);
                     break;
             }
@@ -47,6 +51,7 @@ namespace Spider.Github
         /// <returns></returns>
         public static string GetThemeContents(string theme, MailContentType type)
         {
+            ATLog.Info("获取Github关注的话题");
             List<ThemeRepo> repos = JsonParserGithub.GetThemeRepos(theme);
 
             string content = "";
@@ -60,7 +65,7 @@ namespace Spider.Github
                     content = MailHTMLTemplate.GetHTMLContentByTheme(repos);
                     break;
             }
-            File.WriteAllText(Path.Combine(System.Environment.CurrentDirectory, "B.html"), content);
+            //File.WriteAllText(Path.Combine(System.Environment.CurrentDirectory, "B.html"), content);
             return content;
         }
 
@@ -72,6 +77,7 @@ namespace Spider.Github
         /// <returns></returns>
         public static List<ThemeRepo> GetThemeRepos(string theme, SearchType type = SearchType.Repositories)
         {
+            ATLog.Info("获取Github上关注的话题");
             List<ThemeRepo> repos = new List<ThemeRepo>();
 
             StringBuilder conditions = new StringBuilder();

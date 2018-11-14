@@ -1,4 +1,5 @@
-﻿using Repos;
+﻿using LogManager;
+using Repos;
 using Spider.Database;
 using Spider.Github;
 using Spider.Mail;
@@ -62,6 +63,7 @@ namespace Spider
                 List<HotRepo> dataList = ZhihuOp.Instance.GetRangeHotData(DateTime.Now);
                 string mailContent = MailTextTemplate.CreateMailTemplate(dataList);
 
+                ATLog.Info("查找热点的订阅者");
                 //查找热点订阅者
                 List<string> users = new List<string>();
                 foreach (var mailAddress in zhihuConf.SubscribeHot.Keys)
@@ -70,6 +72,7 @@ namespace Spider
                         users.Add(mailAddress);
                 }
 
+                ATLog.Info("向订阅者发送邮件");
                 MailManager.SendMail(zhihuConf, SubscriptionSubject.Hots, mailContent, users,false);
 
                 if (zhihuConf.isDebug) zhihuConf.isDebugSend = true;
@@ -88,6 +91,7 @@ namespace Spider
         {
             if ((githubConf.isDebug && !githubConf.isDebugSend) || UpdateNoticeCondition(githubConf.noticeRate))
             {
+                ATLog.Info("正在进行与Github数据相关的行为");
                 string mailContens = "";
                 //
                 foreach (string key in githubConf.LanguagesDict.Keys)

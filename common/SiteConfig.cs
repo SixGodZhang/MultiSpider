@@ -136,6 +136,7 @@ namespace Spider
         /// </summary>
         public static ZhihuWebConfig<ZhihuReceiver> ReadSettingForZhihu()
         {
+            ATLog.Info("读取知乎的配置");
             ZhihuWebConfig<ZhihuReceiver> config = new ZhihuWebConfig<ZhihuReceiver>();
 
             string settingContent = File.ReadAllText(zhihuConfPath);
@@ -150,6 +151,7 @@ namespace Spider
         /// </summary>
         public static GithubWebConfig<GithubReceiver> ReadSettingForGithub()
         {
+            ATLog.Info("读取Github的配置");
             GithubWebConfig<GithubReceiver> config = new GithubWebConfig<GithubReceiver>();
 
             string settingContent = File.ReadAllText(githubConfPath);

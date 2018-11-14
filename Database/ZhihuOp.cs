@@ -1,4 +1,5 @@
-﻿using Repos;
+﻿using LogManager;
+using Repos;
 using Spider.MultiDbContext;
 using System;
 using System.Collections.Generic;
@@ -30,6 +31,7 @@ namespace Spider.Database
         /// //////////////////////////////
         public List<HotRepo> GetRangeHotData(DateTime conditionDate)
         {
+            ATLog.Info("从数据库查询符合条件的热点数据");
             List<HotRepo> finals = new List<HotRepo>();
             using (ZhiHuContext context = new ZhiHuContext())
             {
@@ -64,6 +66,7 @@ namespace Spider.Database
         /// <param name="datas"></param>
         public void SaveRangeData<T>(IEnumerable<T> datas) where T : IRepo
         {
+            ATLog.Info("存储知乎的热点数据到数据库");
             using (ZhiHuContext context = new ZhiHuContext())
             {
                 if (typeof(T) == typeof(HotRepo))

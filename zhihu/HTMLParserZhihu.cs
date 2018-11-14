@@ -24,6 +24,7 @@ namespace Spider.ZhiHu
         /// <returns></returns>
         public static List<HotRepo> GetHotData()
         {
+            ATLog.Info("获取知乎热点数据");
             string html = GetHTMLContent();
             return GetHotList(html);
         }
@@ -33,6 +34,7 @@ namespace Spider.ZhiHu
         /// </summary>
         private static string GetHTMLContent()
         {
+            ATLog.Info("获取知乎热点HTML内容");
             Stopwatch watch = new Stopwatch();
             watch.Start();
             string url = "https://www.zhihu.com/hot";
@@ -97,6 +99,7 @@ namespace Spider.ZhiHu
         /// <returns></returns>
         private static List<HotRepo> GetHotList(string htmlContent)
         {
+            ATLog.Info("解析知乎HTML内容");
             List<HotRepo> hotRepos = new List<HotRepo>();//存入数据的数据类型
             List<HotData> hotList = new List<HotData>();//分析的完整数据类型
 
