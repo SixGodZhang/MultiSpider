@@ -33,7 +33,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject>GithubSpider.SpiderMain</StartupObject>
+    <StartupObject>Spider.SpiderMain</StartupObject>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
@@ -64,6 +64,8 @@
     <Compile Include="common\SiteConfig.cs" />
     <Compile Include="Database\GithubOp.cs" />
     <Compile Include="Database\IDatabaseOp.cs" />
+    <Compile Include="Database\ZhihuOp.cs" />
+    <Compile Include="DbContext\ZhiHuContext.cs" />
     <Compile Include="github\JsonParserGithub.cs" />
     <Compile Include="common\CommonDefine.cs" />
     <Compile Include="github\Conditions.cs" />
@@ -74,15 +76,16 @@
     <Compile Include="MailCreator\MailReceiver.cs" />
     <Compile Include="MailCreator\MailHTMLTemplate.cs" />
     <Compile Include="MailCreator\MailTextTemplate.cs" />
-    <Compile Include="Models\Github.cs" />
+    <Compile Include="DbContext\GithubContext.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="github\RepositoriesEntity.cs" />
+    <Compile Include="repos\HotRepo.cs" />
     <Compile Include="repos\IRepo.cs" />
-    <Compile Include="repos\Repos.cs" />
     <Compile Include="repos\ThemeRepo.cs" />
     <Compile Include="repos\TrendingRepo.cs" />
-    <Compile Include="zhihu\APIZhihu.cs" />
+    <Compile Include="zhihu\DataType\HotList.cs" />
+    <Compile Include="zhihu\DataType\ZhiHuData.cs" />
     <Compile Include="zhihu\HTMLParserZhihu.cs" />
     <Compile Include="zhihu\ZhihuCommonDefine.cs" />
   </ItemGroup>

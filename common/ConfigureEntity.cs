@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GithubSpider
+namespace Spider
 {
     /// <summary>
     /// 此类的实例在启动程序时从配置文件XXX_setting.ini中读取
@@ -18,6 +18,7 @@ namespace GithubSpider
         public bool debug;//是否是调试模式
         public string mailcontenttype;//邮件内容类型
         public string noticerate;//邮件提醒频率
+        public bool database;//数据是否存放到数据库
     }
 
     public abstract class Receiver
@@ -37,8 +38,10 @@ namespace GithubSpider
 
     public class ZhihuReceiver : Receiver
     {
-        //关注热点:知乎热点
-        public string[] hots;
+        //话题
+        public string[] topics;
+        //是否订阅热点
+        public bool hot;
     }
 
 }

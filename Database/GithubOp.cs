@@ -1,8 +1,8 @@
-﻿using Models;
+﻿using Spider.MultiDbContext;
 using Repos;
 using System.Collections.Generic;
 
-namespace Database
+namespace Spider.Database
 {
     //public class GithubOpTest
     //{
@@ -44,7 +44,7 @@ namespace Database
         {
             get
             {
-                if (_instance == null) return new GithubOp();
+                if (_instance == null) _instance = new GithubOp();
                 return _instance;
             }
         }
@@ -56,7 +56,7 @@ namespace Database
         /// <param name="data"></param>
         public void SaveData<T>(T data) where T : IRepo
         {
-            using (Github github = new Github())
+            using (GithubContext github = new GithubContext())
             {
                 if (typeof(T) == typeof(TrendingRepo))
                     github.TrendingEntities.Add(data as TrendingRepo);
@@ -73,7 +73,7 @@ namespace Database
         /// <param name="datas"></param>
         public void SaveRangeData<T>(IEnumerable<T> datas) where T : IRepo
         {
-            using (Github github = new Github())
+            using (GithubContext github = new GithubContext())
             {
                 if (typeof(T) == typeof(TrendingRepo))
                     github.TrendingEntities.AddRange(datas as IEnumerable<TrendingRepo>);

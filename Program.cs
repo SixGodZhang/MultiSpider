@@ -1,8 +1,13 @@
-﻿using System;
+﻿using Repos;
+using Spider.Database;
+using Spider.Github;
+using Spider.Mail;
+using Spider.ZhiHu;
+using System;
 using System.Collections.Generic;
 using System.IO;
 
-namespace GithubSpider
+namespace Spider
 {
     internal class SpiderMain
     {
@@ -38,7 +43,7 @@ namespace GithubSpider
 
             while (true)
             {
-                GithubAction();
+               // GithubAction();
                 ZhihuAction();
             }
         }
@@ -48,7 +53,19 @@ namespace GithubSpider
         /// </summary>
         private static void ZhihuAction()
         {
-            
+            if ((zhihuConf.isDebug && !zhihuConf.isDebugSend) || UpdateNoticeCondition(zhihuConf.noticeRate))
+            {
+                List<HotRepo> repos = HTMLParserZhihu.GetHotData();
+                if (zhihuConf.database)
+                    ZhihuOp.Instance.SaveRangeData(repos);
+
+                if (zhihuConf.isDebug) zhihuConf.isDebugSend = true;
+                SendStatus.SetSendSatus(zhihuConf.noticeRate);
+            }
+
+            if (!zhihuConf.isDebug) CheckSendStatusForReset(zhihuConf.noticeRate);
+
+   
         }
 
         /// <summary>

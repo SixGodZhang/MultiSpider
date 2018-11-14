@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using Repos;
+using Spider.Mail;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -7,8 +8,9 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using Spider.Database;
 
-namespace GithubSpider
+namespace Spider.Github
 {
     class JsonParserGithub
     {
@@ -104,7 +106,7 @@ namespace GithubSpider
             }
 
             if (repos.Count != 0)
-                Database.GithubOp.Instance.SaveRangeData(repos);
+                GithubOp.Instance.SaveRangeData(repos);
 
             return repos;
         }

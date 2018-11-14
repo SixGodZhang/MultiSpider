@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28010.2003
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GitHubToMail", "GitHubToMail.csproj", "{E2828AD1-3211-4B3C-A613-165035A97FAE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spider", "Spider.csproj", "{E2828AD1-3211-4B3C-A613-165035A97FAE}"
 	ProjectSection(ProjectDependencies) = postProject
 		{5D108ACA-1361-45C1-AA45-6367E83D5641} = {5D108ACA-1361-45C1-AA45-6367E83D5641}
 	EndProjectSection

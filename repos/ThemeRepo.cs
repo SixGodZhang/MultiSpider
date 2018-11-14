@@ -1,8 +1,10 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Repos
 {
+    [Table("Theme")]
     public class ThemeRepo:IRepo
     {
         public ThemeRepo() { }

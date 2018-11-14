@@ -1,4 +1,4 @@
-﻿namespace Models
+﻿namespace Spider.MultiDbContext
 {
     using Repos;
     using System;
@@ -29,9 +29,9 @@
     //}
 
 
-    public class Github : DbContext
+    public class GithubContext : DbContext
     {
-        public Github()
+        public GithubContext()
             : base("name=Github")
         {
             //Database.SetInitializer<Github>(null);

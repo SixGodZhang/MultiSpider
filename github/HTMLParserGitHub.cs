@@ -1,4 +1,4 @@
-﻿using Database;
+﻿using Spider;
 using HtmlAgilityPack;
 using Repos;
 using System;
@@ -10,8 +10,9 @@ using System.Net.Security;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
+using Spider.Database;
 
-namespace GithubSpider
+namespace Spider.Github
 {
     public class HTMLParserGitHub
     {

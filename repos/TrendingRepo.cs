@@ -1,8 +1,10 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Repos
 {
+    [Table("Trending")]
     public class TrendingRepo:IRepo
     {
         [Key]

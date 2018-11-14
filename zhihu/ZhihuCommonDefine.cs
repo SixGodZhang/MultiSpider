@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GithubSpider
+namespace Spider
 {
     public partial class CommonDefine
     {
-        public static Dictionary<string, List<string>> hotsDict = new Dictionary<string, List<string>>();
+        //public static Dictionary<string, List<string>> hotsDict = new Dictionary<string, List<string>>();
     }
 }

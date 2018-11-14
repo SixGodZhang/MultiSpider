@@ -3,7 +3,7 @@ using System.Net;
 using System.Net.Mail;
 using System.Text;
 
-namespace GithubSpider
+namespace Spider.Mail
 {
     public class MailManager
     {

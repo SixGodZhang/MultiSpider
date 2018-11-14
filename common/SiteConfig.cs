@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 
-namespace GithubSpider
+namespace Spider
 {
     /// <summary>
     /// 此类为代码中调用配置需要使用的类,
@@ -22,6 +22,7 @@ namespace GithubSpider
         public bool isDebugSend = false;//辅助字段
         public MailContentType mailType = MailContentType.TEXT;
         public NoticeRate noticeRate = NoticeRate.WEEK;
+        public bool database = false;
 
         /// <summary>
         /// 用于转换数据类型(实际使用的)
@@ -32,6 +33,7 @@ namespace GithubSpider
             this.sender = configure.sender;
             this.receivers = configure.receivers;
             this.license = configure.license;
+            this.database = configure.database;
             string[] noticeTimeData = configure.noticetime.Split('-');
             try
             {
@@ -48,6 +50,10 @@ namespace GithubSpider
         }
     }
 
+    /// <summary>
+    /// Github网站的相关配置
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public class GithubWebConfig<T> : SpiderWebConfig<T> where T : GithubReceiver
     {
         public Dictionary<string, List<string>> ThemesDict = new Dictionary<string, List<string>>();
@@ -92,8 +98,31 @@ namespace GithubSpider
 
     public class ZhihuWebConfig<T> : SpiderWebConfig<T> where T : ZhihuReceiver
     {
+        //是否订阅热点
+        public Dictionary<string, bool> SubscribeHot = new Dictionary<string, bool>();
+        //关注话题
+        public Dictionary<string, List<string>> TopicsDict = new Dictionary<string, List<string>>();
         public override void Convert(Configure<T> configure)
         {
+            base.Convert(configure);
+            foreach (var receiver in configure.receivers)
+            {
+                SubscribeHot.Add(receiver.mail, receiver.hot);
+
+                foreach (var topic in receiver.topics)
+                {
+                    if (TopicsDict.ContainsKey(topic))
+                    {
+                        List<string> mails = TopicsDict[topic];
+                        if (mails == null)
+                            mails = new List<string>() { receiver.mail };
+                        else
+                            mails.Add(receiver.mail);
+                    }
+                    else
+                        TopicsDict.Add(topic, new List<string>() { receiver.mail });
+                }   
+            }
         }
     }
 
@@ -108,61 +137,10 @@ namespace GithubSpider
         public static ZhihuWebConfig<ZhihuReceiver> ReadSettingForZhihu()
         {
             ZhihuWebConfig<ZhihuReceiver> config = new ZhihuWebConfig<ZhihuReceiver>();
+
             string settingContent = File.ReadAllText(zhihuConfPath);
             Configure<ZhihuReceiver> zhihuConfigure = Newtonsoft.Json.JsonConvert.DeserializeObject<Configure<ZhihuReceiver>>(settingContent);
-
-            //=======理论模型=====(转换)=====>实际模型
-            config.sender = zhihuConfigure.sender;
-            config.receivers = zhihuConfigure.receivers;
-            config.license = zhihuConfigure.license;
-
-            //initial noticerate
-            config.noticeRate = (NoticeRate)Enum.Parse(typeof(NoticeRate), zhihuConfigure.noticerate.ToUpper());
-
-            //initial mailtype
-            config.mailType = (MailContentType)Enum.Parse(typeof(MailContentType), zhihuConfigure.mailcontenttype.ToUpper());
-
-            //initial debug mode
-            config.isDebug = zhihuConfigure.debug;
-
-            //initial notice time
-            string[] noticeTimeData = zhihuConfigure.noticetime.Split('-');
-            try
-            {
-                config.noticeTime = new TimeSpan(int.Parse(noticeTimeData[0]), int.Parse(noticeTimeData[1]), 0);
-            }
-            catch (Exception ex)
-            {
-                ATLog.Error(ex.Message + "\n" + ex.StackTrace);
-            }
-
-            //initial follow<--->mail
-            foreach (ZhihuReceiver item in zhihuConfigure.receivers)
-            {
-                //热点
-                foreach (string hot in item.hots)
-                {
-                    if (CommonDefine.hotsDict.ContainsKey(hot))
-                    {
-                        if (CommonDefine.hotsDict[hot] == null)
-                        {
-                            List<string> mail = new List<string>();
-                            mail.Add(item.mail);
-                            CommonDefine.hotsDict.Add(hot, mail);
-                        }
-                        else
-                        {
-                            CommonDefine.hotsDict[hot].Add(item.mail);
-                        }
-                    }
-                    else
-                    {
-                        List<string> mail = new List<string>();
-                        mail.Add(item.mail);
-                        CommonDefine.hotsDict.Add(hot, mail);
-                    }
-                }
-            }
+            config.Convert(zhihuConfigure);
 
             return config;
         }
@@ -175,7 +153,8 @@ namespace GithubSpider
             GithubWebConfig<GithubReceiver> config = new GithubWebConfig<GithubReceiver>();
 
             string settingContent = File.ReadAllText(githubConfPath);
-            Configure<GithubReceiver> githubConfigure = Newtonsoft.Json.JsonConvert.DeserializeObject<Configure<GithubReceiver>>(settingContent);            config.Convert(githubConfigure);
+            Configure<GithubReceiver> githubConfigure = Newtonsoft.Json.JsonConvert.DeserializeObject<Configure<GithubReceiver>>(settingContent);
+            config.Convert(githubConfigure);
             return config;
         }
     }
